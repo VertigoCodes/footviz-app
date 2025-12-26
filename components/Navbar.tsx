@@ -9,7 +9,7 @@ export default function Navbar() {
   const isAdmin = session?.user && (session.user as any).role === 'admin'
 
   return (
-    <nav className="border-b bg-white">
+    <nav className="border-b">
       <div className="max-w-5xl mx-auto p-4 flex items-center gap-4">
         <Link href="/players" className="font-medium">
           Players

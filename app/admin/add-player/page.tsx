@@ -1,5 +1,8 @@
 'use client'
 
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { useState } from 'react'
 import PageContainer from '@/components/PageContainer'
 
@@ -7,6 +10,23 @@ export default function AddPlayerPage() {
   const [name, setName] = useState('')
   const [position, setPosition] = useState('')
   const [message, setMessage] = useState('')
+
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (status === 'loading') return
+
+    if (!session) {
+      router.push('/login')
+      return
+    }
+
+    if ((session.user as any).role !== 'admin') {
+      router.push('/players')
+    }
+  }, [session, status, router])
+
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -36,6 +56,10 @@ export default function AddPlayerPage() {
     } else {
       setMessage('Failed to add player')
     }
+  }
+
+  if (status === 'loading' || !session) {
+  return null
   }
 
   return (
