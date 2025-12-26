@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed": "ts-node scripts/seedPlayers.ts"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -28,3 +29,4 @@
     "typescript": "^5"
   }
 }
+
