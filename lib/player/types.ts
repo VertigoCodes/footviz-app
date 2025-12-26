@@ -1,47 +1,45 @@
+export type Position = 'GK' | 'DEF' | 'MID' | 'ATT'
+export type PreferredFoot = 'Left' | 'Right' | 'Both'
+
 export interface PlayerAttributes {
-  pace: number;
-  agility: number;
-  stamina: number;
-  strength: number;
-  defense: number;
-  passing: number;
-  shooting: number;
-  gameIQ: number;
+  pace: number
+  agility: number
+  stamina: number
+  strength: number
+  defense: number
+  passing: number
+  shooting: number
+  gameIQ: number
 }
 
 export interface Player {
-  playerId: string;
-  name: string;
-  primaryPosition: "GK" | "DEF" | "MID" | "ATT";
-  secondaryPositions?: ("DEF" | "MID" | "ATT")[];
-  preferredFoot: "Left" | "Right" | "Both";
-  age?: number;
-  attributes: PlayerAttributes;
+  playerId: string
+  name: string
+  primaryPosition: Position
+  secondaryPositions?: Position[]
+  preferredFoot: PreferredFoot
+  age?: number
+  attributes: PlayerAttributes
 }
 
 export interface PlayerDerivedMetrics {
-  physical: number;
-  defense: number;
-  attack: number;
-  playmaking: number;
-  mobility: number;
-  overall: number;
+  physical: number
+  defense: number
+  attack: number
+  playmaking: number
+  mobility: number
+  overall: number
 }
 
 export type PlayerTag =
-  | "Wall"
-  | "Cheetah"
-  | "Maestro"
-  | "Engine"
-  | "Finisher"
-  | "Anchor";
-
-export interface PlayerTags {
-  tags: PlayerTag[];
-}
+  | 'Wall'
+  | 'Cheetah'
+  | 'Maestro'
+  | 'Engine'
+  | 'Finisher'
+  | 'Anchor'
 
 export interface EnrichedPlayer extends Player {
-  derived: PlayerDerivedMetrics;
-  tags: PlayerTag[];
+  derived: PlayerDerivedMetrics
+  tags: PlayerTag[]
 }
-

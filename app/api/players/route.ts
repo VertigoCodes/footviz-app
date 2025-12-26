@@ -4,6 +4,12 @@ import clientPromise from '@/lib/db'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
+import { enrichPlayer } from '@/lib/player'
+import { Player } from '@/lib/player/types'
+import { WithId, Document } from 'mongodb'
+
+// type PlayerDocument = WithId<Document> & Player
+
 function isValidPlayer(body: any) {
   if (!body) return false
   if (typeof body.name !== 'string') return false
@@ -25,17 +31,17 @@ export async function GET() {
 
   try {
     const client = await clientPromise
-    const db = client.db('football-db')
+    const db = client.db()
 
     const players = await db
-      .collection('players')
-      .find({})
+      .collection<Player>('players')
+      .find()
       .toArray()
 
+    const enriched = players.map(enrichPlayer)
+
     return NextResponse.json({
-      success: true,
-      count: players.length,
-      data: players,
+      data: enriched,
     })
   } catch (error) {
     console.error('Error fetching players:', error)
