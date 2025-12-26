@@ -2,6 +2,7 @@
 
 import { signIn } from 'next-auth/react'
 import { useState } from 'react'
+import PageContainer from '@/components/PageContainer'
 
 export default function LoginPage() {
   const [username, setUsername] = useState('')
@@ -25,7 +26,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+  <PageContainer>
+    <div className="min-h-screen flex items-center justify-center">
       <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-4">
         <h1 className="text-xl font-semibold">Login</h1>
 
@@ -51,5 +53,7 @@ export default function LoginPage() {
         </button>
       </form>
     </div>
-  )
+  </PageContainer>
+)
+
 }
