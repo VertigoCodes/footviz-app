@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from 'next/link'
 
-export default function HomePage() {
+export default function Home() {
   return (
     <main className="min-h-screen flex items-center justify-center px-6">
       <div className="max-w-md text-center space-y-6">
@@ -15,13 +15,6 @@ export default function HomePage() {
         </p>
 
         <div className="flex flex-col gap-3">
-          <Link
-            href="/players"
-            className="w-full bg-black text-white py-2 rounded text-center"
-          >
-            View Players
-          </Link>
-
             <Link
               href="/players"
               className="px-4 py-2 bg-gray-900 text-white rounded"
