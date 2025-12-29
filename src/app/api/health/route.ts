@@ -2,11 +2,17 @@ import 'server-only'
 
 import { NextResponse } from 'next/server'
 import { getMongoClient } from '@/lib/db'
+import { ENV } from '@/lib/env'
+import { log } from '@/lib/logger'
 
 export async function GET() {
   try {
+    log.info('Health check requested')
+
+    // Verify DB connectivity
     const client = await getMongoClient()
-    await client.db('football-db').listCollections().toArray()
+    const admin = client.db().admin()
+    const info = await admin.serverInfo()
 
     return NextResponse.json({
       status: 'ok',
