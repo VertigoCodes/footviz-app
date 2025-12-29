@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import clientPromise from '@/lib/db'
+import { getMongoClient } from '@/lib/db'
 import bcrypt from 'bcrypt'
 
 export async function POST(request: Request) {
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const client = await clientPromise
+    const client = await getMongoClient()
     const db = client.db('football-db')
     const users = db.collection('users')
 

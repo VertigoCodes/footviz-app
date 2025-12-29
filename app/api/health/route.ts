@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
-import clientPromise from '@/lib/db'
+import { getMongoClient } from '@/lib/db'
 
 export async function GET() {
   try {
-    const client = await clientPromise
+    const client = await getMongoClient()
     await client.db('football-db').listCollections().toArray()
 
     return NextResponse.json({
