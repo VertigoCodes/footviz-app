@@ -1,5 +1,41 @@
 import Image from "next/image";
+import Link from 'next/link'
 
+export default function HomePage() {
+  return (
+    <main className="min-h-screen flex items-center justify-center px-6">
+      <div className="max-w-md text-center space-y-6">
+        <h1 className="text-3xl font-semibold tracking-tight">
+          Welcome to FootViz
+        </h1>
+
+        <p className="text-gray-600">
+          A simple football visualization and team balancing tool
+          built for casual games and fair teams.
+        </p>
+
+        <div className="flex flex-col gap-3">
+          <Link
+            href="/players"
+            className="w-full bg-black text-white py-2 rounded text-center"
+          >
+            View Players
+          </Link>
+
+          <Link
+            href="/login"
+            className="w-full border border-gray-300 py-2 rounded text-center"
+          >
+            Admin Login
+          </Link>
+        </div>
+      </div>
+    </main>
+  )
+}
+
+
+/* 
 export default function Home() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -63,3 +99,4 @@ export default function Home() {
     </div>
   );
 }
+  */

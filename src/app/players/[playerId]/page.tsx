@@ -130,12 +130,12 @@ export default function PlayerProfilePage() {
       {/* Radar */}
       <div className="mb-6 border p-4 rounded">
         <PlayerRadar
-          data={[
-            { metric: 'Physical', value: player.derived.physical },
-            { metric: 'Defense', value: player.derived.defense },
-            { metric: 'Attack', value: player.derived.attack },
-            { metric: 'Playmaking', value: player.derived.playmaking },
-            { metric: 'Mobility', value: player.derived.mobility },
+          stats={[
+            { label: 'Physical', value: player.derived.physical },
+            { label: 'Attack', value: player.derived.attack },
+            { label: 'Defense', value: player.derived.defense },
+            { label: 'Playmaking', value: player.derived.playmaking },
+            { label: 'Mobility', value: player.derived.mobility },
           ]}
         />
       </div>
