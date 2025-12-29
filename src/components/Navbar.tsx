@@ -11,12 +11,17 @@ export default function Navbar() {
   return (
     <nav className="border-b">
       <div className="max-w-5xl mx-auto p-4 flex items-center gap-4">
-        <Link href="/players" className="font-medium">
+        <Link href="/players" className="text-sm font-medium hover:underline">
           Players
         </Link>
 
+        <Link href="/compare" className="text-sm font-medium hover:underline"
+        >
+          Compare
+        </Link>
+
         {isAdmin && (
-          <Link href="/admin/add-player" className="font-medium">
+          <Link href="/admin/add-player" className="text-sm font-medium hover:underline">
             Add Player
           </Link>
         )}

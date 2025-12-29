@@ -22,6 +22,20 @@ export default function HomePage() {
             View Players
           </Link>
 
+            <Link
+              href="/players"
+              className="px-4 py-2 bg-gray-900 text-white rounded"
+            >
+              View Players
+            </Link>
+
+            <Link
+              href="/compare"
+              className="px-4 py-2 bg-gray-900 text-white rounded"
+            >
+              Compare Players
+            </Link>
+
           <Link
             href="/login"
             className="w-full border border-gray-300 py-2 rounded text-center"
