@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import clientPromise from '@/lib/db'
+import { getMongoClient } from '@/lib/db'
 import { enrichPlayer } from '@/lib/player'
 import { Player } from '@/lib/player/types'
 
@@ -9,7 +9,7 @@ export async function GET(
 ) {
   const { playerId } = await context.params
 
-  const client = await clientPromise
+  const client = await getMongoClient()
   const db = client.db()
 
   const player = await db

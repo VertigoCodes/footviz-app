@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import clientPromise from '@/lib/db'
+import { getMongoClient } from '@/lib/db'
 
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
@@ -30,7 +30,7 @@ export async function GET() {
   console.log('GET /api/players')
 
   try {
-    const client = await clientPromise
+    const client = await getMongoClient()
     const db = client.db()
 
     const players = await db
@@ -75,7 +75,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const client = await clientPromise
+    const client = await getMongoClient()
     const db = client.db('football-db')
 
     const result = await db.collection('players').insertOne({

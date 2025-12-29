@@ -1,4 +1,4 @@
-import clientPromise from '@/lib/db'
+import { getMongoClient } from '@/lib/db'
 
 /**
  * NOTE:
@@ -93,7 +93,7 @@ const players = [
 
 async function seedPlayers() {
   try {
-    const client = await clientPromise
+    const client = await getMongoClient()
     const db = client.db()
 
     console.log('Seeding database:', db.databaseName)

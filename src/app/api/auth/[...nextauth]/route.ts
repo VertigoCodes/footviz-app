@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import clientPromise from '@/lib/db'
+import { getMongoClient } from '@/lib/db'
 import bcrypt from 'bcrypt'
 
 export const authOptions: NextAuthOptions = {
@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null
 
-        const client = await clientPromise
+        const client = await getMongoClient()
         const db = client.db('football-db')
 
         const user = await db.collection('users').findOne({
@@ -43,17 +43,22 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.role = (user as any).role
+      if (user && typeof user === 'object' && 'role' in user) {
+        token.role = user.role as string
       }
+
       return token
     },
     async session({ session, token }) {
-      if (session.user) {
-        ;(session.user as any).role = token.role
+      if (session.user && token?.role) {
+        session.user.role = token.role
       }
       return session
     },
+  },
+  pages: {
+    signIn: '/login',
+    error: '/login',
   },
 }
 
