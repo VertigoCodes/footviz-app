@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import clientPromise from '@/lib/db'
+import { getMongoClient } from '@/lib/db'
 import bcrypt from 'bcrypt'
 
 export const authOptions: NextAuthOptions = {
@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null
 
-        const client = await clientPromise
+        const client = await getMongoClient()
         const db = client.db('football-db')
 
         const user = await db.collection('users').findOne({

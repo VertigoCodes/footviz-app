@@ -1,33 +1,26 @@
+import 'server-only'
+
 import { MongoClient } from 'mongodb'
+import { ENV } from '@/lib/env'
 
-const uri = process.env.MONGODB_URI
-
-if (!uri) {
-  throw new Error('MONGODB_URI is not defined')
-}
+let client: MongoClient | null = null
+let clientPromise: Promise<MongoClient> | null = null
 
 /**
- * In development, we use a global variable so that the MongoClient
- * is not re-created on every hot reload.
+ * Returns a shared MongoDB client.
+ * - Lazy initialized (runtime only)
+ * - Safe for Vercel serverless
+ * - No build-time side effects
  */
-let client: MongoClient
-let clientPromise: Promise<MongoClient>
-
-declare global {
-  // eslint-disable-next-line no-var
-  var _mongoClientPromise: Promise<MongoClient> | undefined
-}
-
-if (process.env.NODE_ENV === 'development') {
-  if (!global._mongoClientPromise) {
-    client = new MongoClient(uri)
-    global._mongoClientPromise = client.connect()
+export async function getMongoClient(): Promise<MongoClient> {
+  if (client) {
+    return client
   }
-  clientPromise = global._mongoClientPromise
-} else {
-  // In production (Vercel), always create a new client
-  client = new MongoClient(uri)
-  clientPromise = client.connect()
-}
 
-export default clientPromise
+  if (!clientPromise) {
+    clientPromise = MongoClient.connect(ENV.MONGODB_URI)
+  }
+
+  client = await clientPromise
+  return client
+}
