@@ -1,3 +1,5 @@
+import 'server-only'
+
 import { NextResponse } from 'next/server'
 import { getMongoClient } from '@/lib/db'
 
@@ -8,13 +10,21 @@ export async function GET() {
 
     return NextResponse.json({
       status: 'ok',
-      db: 'connected',
+      environment: process.env.NODE_ENV,
+      mongoVersion: info.version,
+      hasMongoUri: Boolean(ENV.MONGODB_URI),
+      hasAuthSecret: Boolean(ENV.NEXTAUTH_SECRET),
+      hasAuthUrl: Boolean(ENV.NEXTAUTH_URL),
+      timestamp: new Date().toISOString(),
     })
   } catch (error) {
-    console.error('Health check failed:', error)
+    log.error('Health check failed', error)
 
     return NextResponse.json(
-      { status: 'error' },
+      {
+        status: 'error',
+        message: 'Health check failed',
+      },
       { status: 500 }
     )
   }
