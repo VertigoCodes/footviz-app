@@ -29,6 +29,13 @@ export default function Home() {
               Compare Players
             </Link>
 
+            <Link
+              href="/teams"
+              className="px-4 py-2 bg-gray-900 text-white rounded"
+            >
+              Generate Teams
+            </Link>
+
           <Link
             href="/login"
             className="w-full border border-gray-300 py-2 rounded text-center"

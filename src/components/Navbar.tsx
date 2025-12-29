@@ -20,6 +20,11 @@ export default function Navbar() {
           Compare
         </Link>
 
+        <Link href="/teams" className="text-sm font-medium hover:underline"
+        >
+          Team
+        </Link>
+
         {isAdmin && (
           <Link href="/admin/add-player" className="text-sm font-medium hover:underline">
             Add Player
