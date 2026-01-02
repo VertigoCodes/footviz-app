@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import RadarComparison from '@/components/RadarComparison'
 import { derivedToRadarMetrics } from '@/lib/radar/adapters'
+import ComparisonRow from '@/components/ComparisonRow'
 
 type Player = {
   playerId: string
@@ -103,27 +104,27 @@ export default function TeamsPage() {
       </button>
 
       {/* Results */}
-      {result && (
-        <div className="mt-8 space-y-6">
-          {/* Team Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TeamStatsCard
-              title="Team A"
-              stats={result.statsA}
-            />
-            <TeamStatsCard
-              title="Team B"
-              stats={result.statsB}
-            />
-          </div>
+    {result && (
+    <>
+        {/* Teams */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <TeamList
+            title={`Team A (Avg ${result.scoreA})`}
+            players={result.teamA}
+        />
+        <TeamList
+            title={`Team B (Avg ${result.scoreB})`}
+            players={result.teamB}
+        />
+        </div>
 
-            {/* Radar */}
-            <div className="border rounded p-4">
-            <h2 className="font-medium mb-4 text-center">
-                Team Comparison
-            </h2>
+        {/* Radar */}
+        <div className="border rounded p-4 mt-6">
+        <h2 className="font-medium mb-4 text-center">
+            Team Comparison
+        </h2>
 
-            <RadarComparison
+        <RadarComparison
             left={{
             name: 'Team A',
             color: '#2563eb',
@@ -134,38 +135,59 @@ export default function TeamsPage() {
             color: '#dc2626',
             metrics: derivedToRadarMetrics(result.statsB),
             }}
-            />
-
-
-            </div>
-
-
-          {/* Teams */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <TeamList
-              title={`Team A (Avg ${result.scoreA})`}
-              players={result.teamA}
-            />
-            <TeamList
-              title={`Team B (Avg ${result.scoreB})`}
-              players={result.teamB}
-            />
-          </div>
-
-          <div className="text-center font-medium">
-            Balance delta:{' '}
-            <span
-              className={
-                result.delta <= 2
-                  ? 'text-green-600'
-                  : 'text-amber-600'
-              }
-            >
-              {result.delta}
-            </span>
-          </div>
+        />
         </div>
-      )}
+
+        {/* Team Comparison */}
+        <div className="border rounded mt-6">
+        <ComparisonRow
+            label="Overall"
+            leftValue={result.statsA.overall}
+            rightValue={result.statsB.overall}
+            leftColor="#2563eb"
+            rightColor="#dc2626"
+        />
+
+        {[
+            {
+            label: 'Physical',
+            left: result.statsA.physical,
+            right: result.statsB.physical,
+            },
+            {
+            label: 'Attack',
+            left: result.statsA.attack,
+            right: result.statsB.attack,
+            },
+            {
+            label: 'Defense',
+            left: result.statsA.defense,
+            right: result.statsB.defense,
+            },
+            {
+            label: 'Playmaking',
+            left: result.statsA.playmaking,
+            right: result.statsB.playmaking,
+            },
+            {
+            label: 'Mobility',
+            left: result.statsA.mobility,
+            right: result.statsB.mobility,
+            },
+        ].map(stat => (
+            <ComparisonRow
+            key={stat.label}
+            label={stat.label}
+            leftValue={stat.left}
+            rightValue={stat.right}
+            leftColor="#2563eb"
+            rightColor="#dc2626"
+            />
+        ))}
+        </div>
+    </>
+    )}
+
     </div>
   )
 }
