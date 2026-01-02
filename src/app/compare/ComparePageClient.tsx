@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import ComparisonRow from '@/components/ComparisonRow'
-import ComparisonRadar from '@/components/ComparisonRadar'
+import RadarComparison from '@/components/RadarComparison'
+import { derivedToRadarMetrics } from '@/lib/radar/adapters'
 
 type Player = {
   playerId: string
@@ -104,28 +105,36 @@ export default function ComparePageClient() {
         Player Comparison
       </h1>
 
-      <div className="flex justify-between items-center mb-4 px-2">
-        <div className="flex items-center gap-2 text-blue-600 font-medium">
-          <span className="w-3 h-3 rounded-full bg-blue-500" />
-          {left.name}
-        </div>
+      <RadarComparison
+      left={{
+        name: left.name,
+        color: '#2563eb',
+        metrics: derivedToRadarMetrics(left.derived),
+      }}
+      right={{
+        name: right.name,
+        color: '#dc2626',
+        metrics: derivedToRadarMetrics(right.derived),
+      }}
+      />
 
-        <div className="flex items-center gap-2 text-amber-600 font-medium">
-          <span className="w-3 h-3 rounded-full bg-amber-500" />
-          {right.name}
-        </div>
-      </div>
-
-      <ComparisonRadar stats={radarStats} />
 
       <div className="border rounded mt-6">
-        <ComparisonRow label="Overall" leftValue={left.derived.overall} rightValue={right.derived.overall} />
+        <ComparisonRow 
+          label="Overall" 
+          leftValue={left.derived.overall} 
+          rightValue={right.derived.overall} 
+          leftColor='#2563eb'
+          rightColor='#dc2626'
+        />
         {radarStats.map(stat => (
           <ComparisonRow
             key={stat.label}
             label={stat.label}
             leftValue={stat.leftValue}
             rightValue={stat.rightValue}
+            leftColor='#2563eb'
+            rightColor='#dc2626'
           />
         ))}
       </div>

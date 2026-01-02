@@ -1,3 +1,5 @@
 export { generateTeams } from './generateTeams'
 export { scoreTeam } from './scoreTeam'
 export { calculateSwapImpact } from './swapImpact'
+export { calculateTeamStats } from './calculateTeamStats'
+export type { TeamStats } from './calculateTeamStats'

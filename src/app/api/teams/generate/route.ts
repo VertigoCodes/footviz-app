@@ -3,6 +3,7 @@ import { getMongoClient } from '@/lib/db'
 import { generateTeams } from '@/lib/team'
 import { enrichPlayer } from '@/lib/player'
 import { Player } from '@/lib/player/types'
+import { calculateTeamStats } from '@/lib/team'
 
 export async function POST(req: Request) {
   try {
@@ -43,8 +44,14 @@ export async function POST(req: Request) {
 
     const result = generateTeams(enrichedPlayers)
 
-    return NextResponse.json(result)
-  } catch (err) {
+    const teamStatsA = calculateTeamStats(result.teamA)
+    const teamStatsB = calculateTeamStats(result.teamB)
+
+    return NextResponse.json({
+    ...result,
+    statsA: teamStatsA,
+    statsB: teamStatsB,
+    })} catch (err) {
     console.error('Team generation error:', err)
     return NextResponse.json(
       { error: 'Failed to generate teams' },
